@@ -1,22 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { User } from './models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegistrationService {
+  private userSubject: BehaviorSubject<User | null>;
+    public user: Observable<User | null>;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.userSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')!));
+    this.user = this.userSubject.asObservable();
+  }
 
-  userRegistration(first_name: string, last_name:string, email: string, password: string, confirm_password: string) {
-    const body = {
-      first_name,
-      last_name,
-      email,
-      password,
-      confirm_password
-    };
-    return this.http.post('http://127.0.0.1:8000/api/user-registration', body);
+  public get userValue() {
+    return this.userSubject.value;
+  }
+
+  userRegistration(user: User) {
+    return this.http.post('http://127.0.0.1:8000/api/user-registration', user);
   }
 
 }

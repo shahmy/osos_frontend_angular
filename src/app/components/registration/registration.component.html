@@ -3,10 +3,35 @@
 
         <form [formGroup] ="registrationForm" (ngSubmit)="userRegistrtion()">
         <input type="text" formControlName ="first_name" placeholder="First Name">
+
+        <div *ngIf="submitted && f['first_name'].errors" class="invalid-feedback">
+            <div *ngIf="f['first_name'].errors['required']">First Name is required</div>
+        </div>
+
         <input type="text" formControlName ="last_name" placeholder="Last Name">
+
+        <div *ngIf="submitted && f['last_name'].errors" class="invalid-feedback">
+            <div *ngIf="f['last_name'].errors['required']">First Name is required</div>
+        </div>
+
         <input type="email" formControlName="email" placeholder="Email">
+
+        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+            <div *ngIf="f['email'].errors['required']">First Name is required</div>
+        </div>
+
         <input type="password" formControlName="password" placeholder="Password">
+
+        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+            <div *ngIf="f['password'].errors['required']">First Name is required</div>
+        </div>
+
         <input type="password" formControlName="confirm_password" placeholder="Confirm Password">
+
+        <div *ngIf="submitted && f['confirm_password'].errors" class="invalid-feedback">
+            <div *ngIf="f['confirm_password'].errors['required']">First Name is required</div>
+        </div>
+
         <input type="submit" value="Register">
       </form>
 

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { first } from 'rxjs/operators';
 
 import { RegistrationService } from '../../registration.service';
 
@@ -8,37 +9,49 @@ import { RegistrationService } from '../../registration.service';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css']
 })
-export class RegistrationComponent {
+export class RegistrationComponent implements OnInit{
 
-  registrationForm = new FormGroup({
-    first_name: new FormControl(''),
-    last_name: new FormControl(''),
-    email: new FormControl(''),
-    password: new FormControl(''),
-    confirm_password: new FormControl('')
-  });
+    registrationForm!: FormGroup;
+    loading = false;
+    submitted = false;
 
-  first_name: string = '';
-  last_name: string = '';
-  email: string = '';
-  password: string = '';
-  confirm_password: string = '';
+  constructor(
+    private getRegistrationService: RegistrationService,
+    private formBuilder: FormBuilder,
+    ) {}
 
-  constructor(private getRegistrationService: RegistrationService) {
+    ngOnInit() {
+      this.registrationForm = this.formBuilder.group({
+          first_name: ['', Validators.required],
+          last_name: ['', Validators.required],
+          email: ['', Validators.required],
+          password: ['', [Validators.required, Validators.minLength(6)]],
+          confirm_password: ['', [Validators.required, Validators.minLength(6)]]
+      });
   }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.registrationForm.controls; }
 
   userRegistrtion() {
 
-    console.log(this.registrationForm.value);
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.registrationForm.invalid) {
+      return;
+  }
 
     this.getRegistrationService.
-    userRegistration(this.first_name, this.last_name, this.email, this.password, this.confirm_password)
-    .subscribe((user: any) => {
-
-      if (user) {
-        alert('Registration Successful');
+    userRegistration(this.registrationForm.value)
+    .pipe(first())
+    .subscribe({
+      next: (user: any) => {
+        console.log(user);
+      },
+      error: error => {
+        console.log(error);
       }
-
     });
 
   }
