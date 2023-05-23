@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
+import { map } from 'rxjs/operators';
 import { AccountService, AlertService } from '../../../_services';
 import { from } from 'rxjs';
 
@@ -17,13 +18,22 @@ export class AddBookComponent implements OnInit {
     loading = false;
     submitted = false;
 
+    authorId?: any;
+
     constructor(
       private formBuilder: FormBuilder,
       private route: ActivatedRoute,
       private router: Router,
       private accountService: AccountService,
       private alertService: AlertService
-  ) {}
+  ) {
+
+    this.accountService.user
+      .pipe(map(userDetails => ({
+              ...userDetails,
+      })))
+      .subscribe(userDetails => this.authorId = userDetails.user.author.id);
+  }
 
   ngOnInit() {
     this.addAuthorBook = this.formBuilder.group({
@@ -62,7 +72,7 @@ export class AddBookComponent implements OnInit {
 
     this.loading = true;
     this.accountService.
-    createAutherBook('14',formData)
+    createAutherBook(this.authorId,formData)
     .pipe(first())
       .subscribe({
           next: () => {
