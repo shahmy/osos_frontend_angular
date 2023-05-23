@@ -16,6 +16,8 @@
         }
         toggleNavbarMethod();
         $(window).resize(toggleNavbarMethod);
+
+        $('#example').DataTable();
     });
     
     

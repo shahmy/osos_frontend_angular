@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import{ FormsModule, ReactiveFormsModule  } from '@angular/forms'; 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
+import { JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { HomeComponent } from './components/home/home.component';
-import { HeaderComponent } from './components/layouts/header/header.component';
-import { FooterComponent } from './components/layouts/footer/footer.component';
 import { NavbarComponent } from './components/layouts/navbar/navbar.component';
+import { FooterComponent } from './components/layouts/footer/footer.component';
+import { TopbarComponent } from './components/layouts/topbar/topbar.component';
+import { AlertComponent } from './_components/alert.component';
 
 @NgModule({
   declarations: [
@@ -18,9 +20,10 @@ import { NavbarComponent } from './components/layouts/navbar/navbar.component';
     LoginComponent,
     RegistrationComponent,
     HomeComponent,
-    HeaderComponent,
+    NavbarComponent,
     FooterComponent,
-    NavbarComponent
+    TopbarComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,10 @@ import { NavbarComponent } from './components/layouts/navbar/navbar.component';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

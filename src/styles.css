@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.contact-form{
+    width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+}

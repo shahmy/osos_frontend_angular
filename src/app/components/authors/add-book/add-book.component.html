@@ -1,0 +1,63 @@
+<!-- Page Header Start -->
+<div class="container-fluid bg-secondary mb-5">
+    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+        <h1 class="font-weight-semi-bold text-uppercase mb-3">Add Book</h1>
+        <div class="d-inline-flex">
+            <p class="m-0"><a >Authors</a></p>
+            <p class="m-0 px-2">-</p>
+            <p class="m-0">Add Book</p>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+
+ <!-- Contact Start -->
+ <div class="container-fluid pt-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-12 mb-5">
+            <div class="contact-form">
+                <div id="success"></div>
+                <form [formGroup] ="addAuthorBook" (ngSubmit)="addBook()"  id="contactForm">
+                    <div class="control-group mb-20">
+                        <input type="text" class="form-control" id="isbn" placeholder="ISBN"
+                            required="required" formControlName ="isbn"/>
+                       <div *ngIf="submitted && f['isbn'].errors" class="help-block text-danger">
+                            <p *ngIf="f['isbn'].errors['required']">ISBN is required</p>
+                        </div>
+                    </div>
+
+
+                    <div class="control-group mb-20">
+                        <input type="text" class="form-control" id="lname" placeholder="Book Title"
+                            required="required" formControlName ="title" />
+                        <div *ngIf="submitted && f['title'].errors" class="help-block text-danger">
+                            <p *ngIf="f['title'].errors['required']">Title is required</p>
+                        </div>
+                    </div>
+
+                    <div class="control-group mb-20">
+                        <textarea class="form-control" id="description" placeholder="Description" rows="5" formControlName ="description"></textarea>
+                        
+                    </div>
+
+                    <div class="control-group mb-20">
+                        <input type="number" class="form-control" id="price" placeholder="Price"
+                             formControlName ="price" />
+                    </div>
+
+                    <div class="control-group mb-20">
+                        
+                        <input type="file" class="form-control" id="cover_image" placeholder="Cover Image" formControlName ="cover_image"  />
+                        
+                    </div>
+                    
+                    <div>
+                        <button class="btn btn-primary py-2 px-4" type="submit">Add Book</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact End -->

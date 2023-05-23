@@ -1,4 +1,4 @@
-export class User {
+﻿export class User {
     id?: string;
     first_name?: string;
     last_name?: string;
@@ -6,4 +6,5 @@ export class User {
     password?: string;
     confirm_password?: string;
     token?: string;
+    user?: any;
 }

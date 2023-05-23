@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { RegistrationService } from '../../registration.service';
-
+import { AccountService, AlertService } from '../../_services';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -16,8 +16,11 @@ export class RegistrationComponent implements OnInit{
     submitted = false;
 
   constructor(
-    private getRegistrationService: RegistrationService,
-    private formBuilder: FormBuilder,
+        private formBuilder: FormBuilder,
+        private route: ActivatedRoute,
+        private router: Router,
+        private accountService: AccountService,
+        private alertService: AlertService
     ) {}
 
     ngOnInit() {
@@ -41,18 +44,19 @@ export class RegistrationComponent implements OnInit{
     if (this.registrationForm.invalid) {
       return;
   }
-
-    this.getRegistrationService.
+    this.loading = true;
+    this.accountService.
     userRegistration(this.registrationForm.value)
     .pipe(first())
-    .subscribe({
-      next: (user: any) => {
-        console.log(user);
-      },
-      error: error => {
-        console.log(error);
-      }
-    });
+      .subscribe({
+          next: () => {
+            this.alertService.success('Registration successful', { keepAfterRouteChange: true });
+            this.router.navigate(['../login'], { relativeTo: this.route });
+          },
+          error: error => {
+            console.log(error);
+          }
+      });
 
   }
 

@@ -1,0 +1,47 @@
+  <!-- Page Header Start -->
+  <div class="container-fluid bg-secondary mb-5">
+    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+        <h1 class="font-weight-semi-bold text-uppercase mb-3">List My Books</h1>
+        <div class="d-inline-flex">
+            <p class="m-0"><a >Authors</a></p>
+            <p class="m-0 px-2">-</p>
+            <p class="m-0">List My Books</p>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<!-- Contact Start -->
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-12 mb-5">
+            <table id="example" class="display" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>ISBN</th>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Cover Image</th>
+                        <th>Action</th>
+                    </tr>
+                    
+                </thead>
+                <tbody>
+                    <tr *ngFor="let book of books">
+                        <td>{{book.isbn}}</td>
+                        <td>{{book.title}}</td>
+                        <td>{{book.price}}</td>
+                        <td><img src="{{book.cover_image}}" alt="" width="100px" height="100px"></td>
+                        <td><a routerLink="../edit-book/{{book.id}}">Edit </a></td>
+                    </tr> 
+
+                    <tr *ngIf="!books">
+                        <td colspan="4">Sorry! Books not avilable</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Contact End -->
